@@ -6,9 +6,9 @@ all_nodes = ["test-server-001.domain.com", "test-server-001.domain.com", "test-s
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
 
 # Domain name of your hosts
-domain = "domain.com"
+mydomain = "domain.com"
 
-#Use "bootstrap" with MariaDB and use "boostrap-pxc" with Percona
+# Use "bootstrap" with MariaDB and use "boostrap-pxc" with Percona
 bootstrap_cmd = "bootstrap"
 
 

@@ -37,6 +37,7 @@ if not os.access(galera_params, os.F_OK):
     sys.exit(1)
 execfile(galera_params)
 
+mydomain = "." + mydomain
 myname = socket.gethostname().split(".", 1)[0] + mydomain
 other_nodes = list(all_nodes)
 other_nodes.remove(myname)

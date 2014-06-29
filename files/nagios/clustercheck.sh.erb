@@ -24,7 +24,7 @@ exec &> /dev/null 2>&1 # Redirect to /dev/null
 
 #
 # The number of the nodes in the cluster:
-NODE_COUNT=<%= @galera_hosts.count %>
+NODE_COUNT=3
 
 # Here we go:
 if ($CMD -e "UPDATE test.nagios SET id=("$RANDOM");"); then
