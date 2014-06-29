@@ -44,7 +44,6 @@ except OSError:
 sys.path.append("/root")
 import galera_params
 
-mydomain = ".flatns.net"
 myname = socket.gethostname().split(".", 1)[0] + mydomain
 other_nodes = list(all_nodes)
 other_nodes.remove(myname)
