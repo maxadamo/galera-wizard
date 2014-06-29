@@ -59,13 +59,15 @@ mydomain = ".domain.com"
 
 Variables in server.cnf:
 =============================
-1. ```ruby
+1. 
+```ruby
 <%= @galera_hosts.join(",") %>
 ```
 - a comma separated list of the hosts belonging to the cluster. With MariaDB this row can be commented ouy, but with Percona, due to a bug, even if it will work, it will not show the servers connected to the cluster.  
   
   
-2. ```ruby
+2. 
+```ruby
 <% if @memorysize =~ /GB/ -%>
 innodb-buffer-pool-size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * @galera_total_memory_usage.to_f).floor %>M
 <% elsif @memorysize =~ /MB/ -%>
@@ -75,7 +77,8 @@ innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_mem
 - This is namely something like: innodb-buffer-pool-size=4096M 
   I use to assign 70% of the memory, but you'll do as you prefer.
 
-2. ```ruby
+3.
+ ```ruby
 <% if @memorysize =~ /GB/ -%>
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * 0.15).floor %>M"
 <% elsif @memorysize =~ /MB/ -%>
