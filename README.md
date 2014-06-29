@@ -3,7 +3,7 @@ galerakickoff
 
 KickOff Script for Galera Cluster
 
-In the directory ``` files ``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside /etc/my.cnf.d/
+In the directory ``` files ``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside ```/etc/my.cnf.d/```
 
 The configuration files contain puppet variables. If you don't have puppet you'll remove the 'erb' extension and fill the variables manually. 
 
@@ -17,7 +17,7 @@ In the configuration files I use puppet variables, that you may re-use or just d
 Bugs & Workaround:
 ==================
 
-- Percona XtraBackup has a couple of bugs. The bug affecting this script is the following: if you have /var/lib/mysql/lost+found the script will crash.  
+- Percona XtraBackup has a couple of bugs. The bug affecting this script is the following: if you have ```/var/lib/mysql/lost+found``` the script will crash.  
 To workaround the issue you may use incron to re-asssign the directory to mysq:mysql (or you can even delete lost+found, but it will be created again during the boot).  
 Here is the bug: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329
 
