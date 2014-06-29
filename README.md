@@ -141,6 +141,7 @@ Notes:
     - codership
     - mariadb
     - percona
+  http://www.severalnines.com/configurator
 
 
 Acknowledgments:
