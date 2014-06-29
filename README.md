@@ -83,11 +83,13 @@ wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' MB','').to_f * 0.15)
 ```
 - Similar as above said. In this case I give 15% of the whole memory
 
+
 ```ruby
 wsrep_cluster_name="<%= @application %>_<%= @dtap_stage %>"
 ```
 - This is the name of the cluster. It's a unique name in the network. In my case
   is automatically assigned using few parameters taken from our git branches
+
 
 ```ruby
 innodb-log-file-size=<%= @innodb_log_file_size %>
@@ -97,10 +99,13 @@ max-connections=<%= @max_connections %>
 ```
 - Please refer to MariaDB/Percona documentation to understand these variables.
 
+
 ```ruby
 wsrep_sst_receive_address=<%= @fqdn %>
 ```
 - Fully qualified domain name of the server running Galera Cluster
+
+
 ```ruby
 wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
 ```
