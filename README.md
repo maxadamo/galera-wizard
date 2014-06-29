@@ -42,7 +42,8 @@ Variables in /root/galera_params.py
 ```ruby
 all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
 credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_sst_password %>", "nagios": "<%= @galera_nagios_password %>"}
-mydomain = ".<%= @domain -%>"```
+mydomain = ".<%= @domain -%>"
+```
 imagine we have: 
  - three servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
  - database root password: myrootpass
@@ -53,7 +54,8 @@ Then you'll have the following lines in the file:
 ```python
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
-mydomain = ".domain.com" ```
+mydomain = ".domain.com"
+```
 
 Variables in server.cnf:
 =============================
