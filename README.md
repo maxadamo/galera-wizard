@@ -41,9 +41,15 @@ Variables in /root/galera_params.py
 all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
 credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_sst_password %>", "nagios": "<%= @galera_nagios_password %>"}
 mydomain = ".<%= @domain -%>"
+<% if @galera_vendor == 'mariadb' -%>
+bootstrap_cmd = "bootstrap"
+<% else -%>
+bootstrap_cmd = "bootstrap-pxc"
+<% end -%>
 ```
 imagine we have: 
  - three servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
+ - we use MariaDB (not Percona)
  - database root password: myrootpass
  - database sst password: mysstpass
  - database nagios password: mynagiospass
@@ -53,6 +59,7 @@ Then you'll have the following lines in the file:
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
 mydomain = ".domain.com"
+bootstrap_cmd = "bootstrap"
 ```
 
 Variables in server.cnf:
