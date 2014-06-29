@@ -121,20 +121,20 @@ wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
 Monitor:
 ========
 
-- I created a script to check the nodes. It contains only two parameter to set:
-  inside clustercheck.sh:
+I created a script to check the nodes. It contains only two parameter to set.  
+- clustercheck.sh:
 ```ruby
     NODE_COUNT=<%= @galera_hosts.count %>
 ```
-  will contain the number of nodes in your cluster (minimum is 3):
+  it will contain the number of nodes in your cluster (minimum is 3):
 ```
     NODE_COUNT=3
 ```
-  you need to copy my_nagios.cnf under ```/etc/```
+- you need to copy my_nagios.cnf under ```/etc/```
 ```ruby
     password=<%= @galera_nagios_password %>
 ```
-  will contain the nagios password already defined in /root/galera_params.py:
+  it will contain the nagios password already defined in /root/galera_params.py:
     password=mynagiospass
 
 
