@@ -17,7 +17,7 @@ Bugs & Workarounds:
     I prefear using the default directory rather than moving to a subdirectory.
     Therefore we workaround the issue by letting puppet install an incron
     entry that immediately reassign the directory ownership to mysql:mysql
-    
+
 Author: Massimiliano Adamo <maxadamo@gmail.com>
 '''
 
@@ -35,8 +35,8 @@ if not os.access(galera_params, os.F_OK):
     print(RED + "Please check if " + galera_params + " exists " +
           "and you are running this script as root" + WHITE)
     sys.exit(1)
-if os.path.isfile(galera_cnf + "c"):
-    os.unlink(galera_cnf + "c")
+if os.path.isfile(galera_params + "c"):
+    os.unlink(galera_params + "c")
 
 sys.path.append("/root")
 import galera_params
@@ -75,7 +75,7 @@ def clean_underlying_dir():
             else:
                 os.unlink(sqldiritem)
         mount = subprocess.Popen(["/bin/mount", DATADIR])
-        out, err = mount.communicate()    
+        out, err = mount.communicate()
 
 
 def kill_mysql():
@@ -124,11 +124,7 @@ def bootstrap_mysql(boot):
     if boot == "new":
         rename_mycnf()
     try:
-<% if @galera_vendor == 'mariadb' -%>
         subprocess.call(["/etc/rc.d/init.d/mysql", "bootstrap"])
-<% else -%>
-        subprocess.call(["/etc/rc.d/init.d/mysql", "bootstrap-pxc"])
-<% end -%>
     except:
         print("Error bootstrapping the cluster")
         sys.exit(1)
@@ -256,7 +252,7 @@ def show_statements():
     print("CREATE TABLE `test`.`nagios` ( `id` varchar(255) DEFAULT NULL )"
           + " ENGINE=InnoDB DEFAULT CHARSET=utf8;")
     print("INSERT INTO test.nagios SET id=(\"placeholder\");")
-    for thisuser in ['root', 'sstuser', 'nagios' ]:
+    for thisuser in ['root', 'sstuser', 'nagios']:
         print("\n# define user " + thisuser)
         if thisuser is "root":
             for onthishost in ["localhost", "127.0.0.1", "::1"]:
@@ -397,6 +393,7 @@ def joincluster(model):
 
 
 def checkonly():
+    """runs a cluster check"""
     other_wsrep.append(myname)
     for hostitem in all_nodes:
         checkhost(hostitem)
@@ -416,7 +413,7 @@ def main():
            Avoid joining more than one node at once!
          '''
     parser = argparse.ArgumentParser(
-        formatter_class=lambda prog: 
+        formatter_class=lambda prog:
         argparse.RawDescriptionHelpFormatter(prog,max_help_position=29),
         description=textwrap.dedent(intro),
         epilog="Author: Massimiliano Adamo <maxadamo@gmail.com")
@@ -430,7 +427,7 @@ def main():
                         required=False)
     parser.add_argument('-je', '--join-existing',
                         help='join existing Cluster',
-                        action='store_true', 
+                        action='store_true',
                         dest='joincluster("existing")',
                         required=False)
     parser.add_argument('-be', '--bootstrap-existing',
