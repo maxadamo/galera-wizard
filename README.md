@@ -5,8 +5,6 @@ KickOff Script for Galera Cluster
 
 In the directory ```files``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside ```/etc/my.cnf.d/```
 
-The configuration files contain puppet variables. If you don't have puppet you'll remove the 'erb' extension and fill the variables manually. 
-
 
 Prologue:
 =========
