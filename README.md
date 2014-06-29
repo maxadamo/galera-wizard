@@ -136,16 +136,14 @@ Monitor:
 Notes:
 ======
 
-- severalnines.com provides an online configurator to create your own galera
-  mysql configuration files and it works with different vendors:
+- Severalnines provides an online configurator (http://www.severalnines.com/configurator) which will assist you to create your own galera mysql configuration files and it works with different vendors:
     - codership
     - mariadb
     - percona
-  http://www.severalnines.com/configurator
 
 
 Acknowledgments:
 ================
 
-- a big thanks goes to Codership - http://galeracluster.com/ - the Finnish company who created Galera and made it available under public license
+- a big thanks goes to Codership (http://galeracluster.com/)- the Finnish company who created Galera and made it available under public license
 
