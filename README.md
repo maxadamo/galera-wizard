@@ -17,7 +17,8 @@ In the configuration files I use puppet variables, that you may re-use or just d
 Bugs & Workaround:
 ==================
 
-- Percona XtraBackup has a couple of bugs. The bug affecting this script is the following: if you have /var/lib/mysql/lost+found the script will crash.  To workaround the issue you may use incron to re-asssign the directory to mysq:mysql.  You can even delete lost+found but it will be created again during the boot. Here is the bug: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329
+- Percona XtraBackup has a couple of bugs. The bug affecting this script is the following: if you have /var/lib/mysql/lost+found the script will crash.  
+To workaround the issue you may use incron to re-asssign the directory to mysq:mysql.  You can even delete lost+found but it will be created again during the boot. Here is the bug: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329
 
 
 Prerequisites: 
