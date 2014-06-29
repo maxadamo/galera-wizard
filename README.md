@@ -74,6 +74,7 @@ innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_mem
 ```
 - This is namely something like: innodb-buffer-pool-size=4096M 
   I use to assign 70% of the memory, but you'll do as you prefer.
+
 ----------------------  
 ```ruby
 <% if @memorysize =~ /GB/ -%>
@@ -85,6 +86,7 @@ wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' MB','').to_f * 0.15)
 - Similar as above said. In this case I give 15% of the whole memory
 
 
+----------------------  
 ```ruby
 wsrep_cluster_name="<%= @application %>_<%= @dtap_stage %>"
 ```
@@ -92,6 +94,7 @@ wsrep_cluster_name="<%= @application %>_<%= @dtap_stage %>"
   is automatically assigned using few parameters taken from our git branches
 
 
+----------------------  
 ```ruby
 innodb-log-file-size=<%= @innodb_log_file_size %>
 innodb-log-buffer-size=<%= @innodb_log_buffer_size %>
@@ -101,12 +104,14 @@ max-connections=<%= @max_connections %>
 - Please refer to MariaDB/Percona documentation to understand these variables.
 
 
+----------------------  
 ```ruby
 wsrep_sst_receive_address=<%= @fqdn %>
 ```
 - Fully qualified domain name of the server running Galera Cluster
 
 
+----------------------  
 ```ruby
 wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
 ```
