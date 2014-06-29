@@ -81,15 +81,14 @@ wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' GB','').to_f * 1024 
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' MB','').to_f * 0.15).floor %>M"
 <% end -%>
 ```
-- Similar as above said. In this case I give 15% of the whole memory
+- Prettu much the same as above. In this case I give 15% of the whole memory
 
 
 ----------------------  
 ```ruby
 wsrep_cluster_name="<%= @application %>_<%= @dtap_stage %>"
 ```
-- This is the name of the cluster. It's a unique name in the network. In my case
-  is automatically assigned using few parameters taken from our git branches
+- This is the name of the cluster. It's a unique name in the network. In my case is automatically guessed using few parameters taken from our git branches
 
 
 ----------------------  
