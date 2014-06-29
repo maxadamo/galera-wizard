@@ -6,18 +6,18 @@ KickOff Script for Galera Cluster
 In the directory ```files``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside ```/etc/my.cnf.d/```
 
 
-Prologue:
-=========
-
-In the configuration files I use puppet variables, that you may re-use or just disregard and fill in your values
-
-
 Bugs & Workaround:
 ==================
 
 - Percona XtraBackup has a couple of bugs. The bug affecting this script is the following: if you have ```/var/lib/mysql/lost+found``` the script will crash.  
 To workaround the issue you may use incron to re-asssign the directory to mysq:mysql (or you can even delete lost+found, but it will be created again during the boot).  
 Here is the bug: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329
+
+
+TODO:
+=====
+
+- get all config changes described below performed by the main script
 
 
 Prerequisites: 
@@ -37,16 +37,6 @@ you need to install the following extra software:
 
 Variables in /root/galera_params.py
 ============================================
-```ruby
-all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
-credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_sst_password %>", "nagios": "<%= @galera_nagios_password %>"}
-mydomain = ".<%= @domain -%>"
-<% if @galera_vendor == 'mariadb' -%>
-bootstrap_cmd = "bootstrap"
-<% else -%>
-bootstrap_cmd = "bootstrap-pxc"
-<% end -%>
-```
 imagine we have: 
  - three servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
  - we use MariaDB (not Percona)
@@ -58,66 +48,27 @@ Then you'll have the following lines in the file:
 ```python
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
-mydomain = ".domain.com"
+mydomain = "domain.com"
 bootstrap_cmd = "bootstrap"
 ```
 
 Variables in server.cnf:
 =============================
-```ruby
-<%= @galera_hosts.join(",") %>
+```
+wsrep_cluster_address=gcomm://galera-001.domain.com,galera-002.domain.com,galera-003.domain.com
 ```
 - a comma separated list of the hosts belonging to the cluster. With MariaDB this row can be commented ouy, but with Percona, due to a bug, even if it will work, it will not show the servers connected to the cluster.  
   
----------------------  
-```ruby
-<% if @memorysize =~ /GB/ -%>
-innodb-buffer-pool-size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * @galera_total_memory_usage.to_f).floor %>M
-<% elsif @memorysize =~ /MB/ -%>
-innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_memory_usage.to_f ).floor %>M
-<% end -%>
-```
-- This is namely something like: innodb-buffer-pool-size=4096M   
-I use to assign 70% of the memory, but you'll do as you prefer.
-
 ----------------------  
-```ruby
-<% if @memorysize =~ /GB/ -%>
-wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * 0.15).floor %>M"
-<% elsif @memorysize =~ /MB/ -%>
-wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' MB','').to_f * 0.15).floor %>M"
-<% end -%>
 ```
-- Prettu much the same as above. In this case I give 15% of the whole memory
-
-
-----------------------  
-```ruby
-wsrep_cluster_name="<%= @application %>_<%= @dtap_stage %>"
-```
-- This is the name of the cluster. It's a unique name in the network. In my case is automatically guessed using few parameters taken from our git branches
-
-
-----------------------  
-```ruby
-innodb-log-file-size=<%= @innodb_log_file_size %>
-innodb-log-buffer-size=<%= @innodb_log_buffer_size %>
-innodb-buffer-pool-instances=<%= @innodb_buffer_pool_instances %>
-max-connections=<%= @max_connections %>
-```
-- Please refer to MariaDB/Percona documentation to understand these variables.
-
-
-----------------------  
-```ruby
-wsrep_sst_receive_address=<%= @fqdn %>
+wsrep_sst_receive_address=galera-001.domain.com
 ```
 - Fully qualified domain name of the server running Galera Cluster
 
 
 ----------------------  
 ```ruby
-wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
+wsrep_sst_auth=sstuser:mysstpass
 ```
 - password for the user 'sstuser' used for the replication
 
@@ -126,20 +77,14 @@ Monitor:
 ========
 
 I created a script to check the nodes. It contains only two parameter to set.  
-- clustercheck.sh:
-```ruby
-    NODE_COUNT=<%= @galera_hosts.count %>
-```
-  it will contain the number of nodes in your cluster (minimum is 3):
+- clustercheck.sh needs to know how many nodes we have in the cluster (minimum is 3):
 ```
     NODE_COUNT=3
 ```
-- you need to copy my_nagios.cnf under ```/etc/```
-```ruby
-    password=<%= @galera_nagios_password %>
+- you need to copy my_nagios.cnf under ```/etc/``` and it will contain the password for nagios:
 ```
-  it will contain the nagios password already defined in /root/galera_params.py:
     password=mynagiospass
+```
 
 
 Notes:
@@ -154,5 +99,5 @@ Notes:
 Acknowledgments:
 ================
 
-- a big thanks goes to Codership (http://galeracluster.com) the Finnish company who created Galera and made it available under public license
+- a big thanks goes to Codership (http://galeracluster.com), the Finnish company who created Galera and made it available under public license
 
