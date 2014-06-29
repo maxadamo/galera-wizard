@@ -1,20 +1,14 @@
-# The following lines come from Puppet
 #
 # Comma separated list of all hosts in the cluster
-all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
+all_nodes = ["test-server-001.domain.com", "test-server-001.domain.com", "test-server-001.domain.com",]
 
 # Users and passwords
-credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_sst_password %>", "nagios": "<%= @galera_nagios_password %>"}
+credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
 
 # Domain name of your hosts
-domain = ".<%= @domain -%>"
+domain = "domain.com"
 
-<% if @galera_vendor == 'mariadb' -%>
-#This command is used with MariaDB
-ootstrap_cmd = "bootstrap"
-<% else -%>
-# This command is used with Percona
-bootstrap_cmd = "bootstrap-pxc
-<% end -%>
-# The above lines come from Puppet
+#Use "bootstrap" with MariaDB and use "boostrap-pxc" with Percona
+bootstrap_cmd = "bootstrap"
+
 
