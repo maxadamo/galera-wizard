@@ -35,11 +35,7 @@ if not os.access(galera_params, os.F_OK):
     print(RED + "Please check if " + galera_params + " exists " +
           "and you are running this script as root" + WHITE)
     sys.exit(1)
-if os.path.isfile(galera_params + "c"):
-    os.unlink(galera_params + "c")
-
-sys.path.append("/root")
-import galera_params
+execfile(galera_params)
 
 myname = socket.gethostname().split(".", 1)[0] + mydomain
 other_nodes = list(all_nodes)
@@ -124,7 +120,7 @@ def bootstrap_mysql(boot):
     if boot == "new":
         rename_mycnf()
     try:
-        subprocess.call(["/etc/rc.d/init.d/mysql", "bootstrap"])
+        subprocess.call(["/etc/rc.d/init.d/mysql", bootstrap_cmd])
     except:
         print("Error bootstrapping the cluster")
         sys.exit(1)
@@ -256,7 +252,7 @@ def show_statements():
         print("\n# define user " + thisuser)
         if thisuser is "root":
             for onthishost in ["localhost", "127.0.0.1", "::1"]:
-                print("set PASSWORD for 'root'@'" + onthishost 
+                print("set PASSWORD for 'root'@'" + onthishost
                     + "' = PASSWORD('" + credentials[thisuser] + "')")
         for thishost in all_nodes:
             if thisuser is not "root":
