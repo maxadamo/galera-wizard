@@ -10,14 +10,14 @@ The configuration files contain puppet variables. If you don't have puppet
 you'll remove the 'erb' extension and fill the variables manually. 
 
 
-PROLOGUE:
+Prologue:
 =========
 
 In the configuration files I use puppet variables, that you may re-use or just
-disregard
+disregard and fill in your values
 
 
-BUGS & WORKAROUND:
+Bugs & Workaround:
 ==================
 
 - Percona XtraBackup has a couple of bugs. The bug affecting this script is the
@@ -27,7 +27,7 @@ BUGS & WORKAROUND:
   Here is the bug: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329
 
 
-PREREQUISITES: 
+Prerequisites: 
 ==============
 
 - /var/lib/mysql must be a mount-point in fstab (lvm, btrfs, normal partion...)
@@ -36,32 +36,33 @@ PREREQUISITES:
 - if you use MariaDB copy server.cnf under /etc/my.cnf.d/
 - if you use Percona create my.cnf accordingly and put it under /etc/
 
-you need to install the following softwares: 
+you need to install the following extra software:
 - Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
 - Python argparse (some Linux distributions already have it)
 - MySQL for python (Ubuntu: python-mysqldb - Red Hat: MySQL-python)
 
 
-VARIABLES USED IN /root/galera_params.py
+Variables used in /root/galera_params.py
 ============================================
-
+```
 all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
 credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_sst_password %>", "nagios": "<%= @galera_nagios_password %>"}
 mydomain = ".<%= @domain -%>"
-
+```
 imagine we have: 
  - tre servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
- - DB root password: myrootpass
- - DB sst password: mysstpass
- - DB nagios password: mynagiospass
+ - database root password: myrootpass
+ - database sst password: mysstpass
+ - database nagios password: mynagiospass
 
 Then you'll have the following lines in the file:
+```
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
 mydomain = ".domain.com"
+```
 
-
-VARIABLES USED IN server.cnf:
+Variables used IN server.cnf:
 =============================
 
 <%= @galera_hosts.join(",") %> 
@@ -101,7 +102,7 @@ wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
 - password for the user 'sstuser' used for the replication
 
 
-MONITOR:
+Monitor:
 ========
 
 - I created a script to check the nodes.
@@ -116,7 +117,7 @@ MONITOR:
     password=mynagiospass
 
 
-NOTES:
+Notes:
 ======
 
 - severalnines.com provides an online configurator to create your own galera
@@ -126,7 +127,7 @@ NOTES:
     - percona
 
 
-ACKNOWLEDGMENTS:
+Acknowledgments:
 ================
 
 - a big thanks goes to Codership, the Finnish company who created Galera and
