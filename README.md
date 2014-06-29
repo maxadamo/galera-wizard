@@ -44,7 +44,7 @@ you need to install the following extra software:
 
 Variables used in /root/galera_params.py
 ============================================
-```
+```ruby
 all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
 credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_sst_password %>", "nagios": "<%= @galera_nagios_password %>"}
 mydomain = ".<%= @domain -%>"
@@ -56,7 +56,7 @@ imagine we have:
  - database nagios password: mynagiospass
 
 Then you'll have the following lines in the file:
-```
+```python
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
 mydomain = ".domain.com"
@@ -81,7 +81,7 @@ innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_mem
 - This is namely something like: innodb-buffer-pool-size=4096M 
   I use to assign 70% of the memory, but you'll do as you prefer.
 
-```
+```ruby
 <% if @memorysize =~ /GB/ -%>
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * 0.15).floor %>M"
 <% elsif @memorysize =~ /MB/ -%>
@@ -94,16 +94,19 @@ wsrep_cluster_name="<%= @application %>_<%= @dtap_stage %>"
 - This is the name of the cluster. It's a unique name in the network. In my case
   is automatically assigned using few parameters taken from our git branches
 
+```ruby
 innodb-log-file-size=<%= @innodb_log_file_size %>
 innodb-log-buffer-size=<%= @innodb_log_buffer_size %>
 innodb-buffer-pool-instances=<%= @innodb_buffer_pool_instances %>
 max-connections=<%= @max_connections %>
-- Please refer to MariaDB/Percona documentation to undertsand these variables.
+```
+- Please refer to MariaDB/Percona documentation to understand these variables.
 
 wsrep_sst_receive_address=<%= @fqdn %>
 - Fully qualified domain name of the server running Galera Cluster
-
+```ruby
 wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
+```
 - password for the user 'sstuser' used for the replication
 
 
@@ -112,12 +115,18 @@ Monitor:
 
 - I created a script to check the nodes.
 - there are only two parameter to set:
-  inside clustercheck.sh: 
+  inside clustercheck.sh:
+```ruby
     NODE_COUNT=<%= @galera_hosts.count %>
+```
   will contain the number of nodes in your cluster (minimum is 3):
+```
     NODE_COUNT=3
+```
   you need to copy my_nagios.cnf under /etc/
+```ruby
     password=<%= @galera_nagios_password %>
+```
   will contain the nagios password already defined in /root/galera_params.py:
     password=mynagiospass
 
