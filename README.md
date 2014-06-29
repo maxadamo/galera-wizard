@@ -42,7 +42,7 @@ you need to install the following extra software:
 - MySQL for python (Ubuntu: python-mysqldb - Red Hat: MySQL-python)
 
 
-Variables used in /root/galera_params.py
+Variables in /root/galera_params.py
 ============================================
 ```ruby
 all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
@@ -62,7 +62,7 @@ credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagios
 mydomain = ".domain.com"
 ```
 
-Variables used IN server.cnf:
+Variables in server.cnf:
 =============================
 ```ruby
 <%= @galera_hosts.join(",") %> 
@@ -90,7 +90,9 @@ wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' MB','').to_f * 0.15)
 ```
 - Similar as above said. In this case I give 15% of the whole memory
 
+```ruby
 wsrep_cluster_name="<%= @application %>_<%= @dtap_stage %>"
+```
 - This is the name of the cluster. It's a unique name in the network. In my case
   is automatically assigned using few parameters taken from our git branches
 
