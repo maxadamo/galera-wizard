@@ -50,7 +50,7 @@ credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_s
 mydomain = ".<%= @domain -%>"
 ```
 imagine we have: 
- - tre servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
+ - three servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
  - database root password: myrootpass
  - database sst password: mysstpass
  - database nagios password: mynagiospass
