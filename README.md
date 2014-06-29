@@ -121,8 +121,7 @@ wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
 Monitor:
 ========
 
-- I created a script to check the nodes.
-- there are only two parameter to set:
+- I created a script to check the nodes. It contains only two parameter to set:
   inside clustercheck.sh:
 ```ruby
     NODE_COUNT=<%= @galera_hosts.count %>
