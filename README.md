@@ -64,8 +64,9 @@ mydomain = ".domain.com"
 
 Variables used IN server.cnf:
 =============================
-
+```
 <%= @galera_hosts.join(",") %> 
+```
 - a comma separated list of the hosts belonging to the cluster. With MariaDB
   this row can be commented ouy, but with Percona, due to a bug, even if it
   will work, it will not show the servers connected to the cluster.
