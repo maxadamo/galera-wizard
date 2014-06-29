@@ -69,8 +69,7 @@ Variables in server.cnf:
 innodb-buffer-pool-size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * @galera_total_memory_usage.to_f).floor %>M
 <% elsif @memorysize =~ /MB/ -%>
 innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_memory_usage.to_f ).floor %>M
-<% end -%>
-```
+<% end -%> ```
 - This is namely something like: innodb-buffer-pool-size=4096M 
   I use to assign 70% of the memory, but you'll do as you prefer.
 
@@ -97,7 +96,9 @@ max-connections=<%= @max_connections %>
 ```
 - Please refer to MariaDB/Percona documentation to understand these variables.
 
+```ruby
 wsrep_sst_receive_address=<%= @fqdn %>
+```
 - Fully qualified domain name of the server running Galera Cluster
 ```ruby
 wsrep_sst_auth=sstuser:<%= @galera_sst_password %>
