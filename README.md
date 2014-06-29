@@ -72,8 +72,8 @@ innodb-buffer-pool-size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * @galera_to
 innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_memory_usage.to_f ).floor %>M
 <% end -%>
 ```
-- This is namely something like: innodb-buffer-pool-size=4096M 
-  I use to assign 70% of the memory, but you'll do as you prefer.
+- This is namely something like: innodb-buffer-pool-size=4096M   
+I use to assign 70% of the memory, but you'll do as you prefer.
 
 ----------------------  
 ```ruby

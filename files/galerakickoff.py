@@ -30,16 +30,13 @@ GREEN = '\033[92m'
 YELLOW = '\033[93m'
 RED = '\033[91m'
 WHITE = '\033[0m'
-galera_cnf = "/root/galera_params.py"
-if not os.access(galera_cnf, os.F_OK):
-    print(RED + "Please check if " + galera_cnf + " exists " +
+galera_params = "/root/galera_params.py"
+if not os.access(galera_params, os.F_OK):
+    print(RED + "Please check if " + galera_params + " exists " +
           "and you are running this script as root" + WHITE)
     sys.exit(1)
-
-try:
+if os.path.isfile(galera_cnf + "c"):
     os.unlink(galera_cnf + "c")
-except OSError:
-    pass
 
 sys.path.append("/root")
 import galera_params
@@ -55,6 +52,7 @@ for item in other_nodes:
 DATADIR = "/var/lib/mysql"
 myuid = pwd.getpwnam("mysql").pw_uid
 mygid = grp.getgrnam("mysql").gr_gid
+
 
 def clean_underlying_dir():
     """cleanup directory under /var/lib/mysql"""
