@@ -62,8 +62,8 @@ Variables in server.cnf:
 ```ruby
 <%= @galera_hosts.join(",") %>
 ```
-- a comma separated list of the hosts belonging to the cluster. With MariaDB this row can be commented ouy, but with Percona, due to a bug, even if it will work, it will not show the servers connected to the cluster.  
-
+- a comma separated list of the hosts belonging to the cluster. With MariaDB this row can be commented ouy, but with Percona, due to a bug, even if it will work, it will not show the servers connected to the cluster. 
+  
 ```ruby
 <% if @memorysize =~ /GB/ -%>
 innodb-buffer-pool-size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * @galera_total_memory_usage.to_f).floor %>M
