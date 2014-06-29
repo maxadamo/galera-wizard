@@ -148,5 +148,5 @@ Acknowledgments:
 ================
 
 - a big thanks goes to Codership, the Finnish company who created Galera and
-  made it available under public license.
+  made it available under public license: http://galeracluster.com/
 
