@@ -60,7 +60,8 @@ mydomain = ".domain.com"
 Variables in server.cnf:
 =============================
 ```ruby
-<%= @galera_hosts.join(",") %> ```
+<%= @galera_hosts.join(",") %>
+```
 - a comma separated list of the hosts belonging to the cluster. With MariaDB this row can be commented ouy, but with Percona, due to a bug, even if it will work, it will not show the servers connected to the cluster.
 
 ```ruby
@@ -77,7 +78,8 @@ innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_mem
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * 0.15).floor %>M"
 <% elsif @memorysize =~ /MB/ -%>
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' MB','').to_f * 0.15).floor %>M"
-<% end -%> ```
+<% end -%>
+```
 - Similar as above said. In this case I give 15% of the whole memory
 
 ```ruby
