@@ -3,7 +3,7 @@ galerakickoff
 
 KickOff Script for Galera Cluster
 
-In the directory ``` files ``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside ```/etc/my.cnf.d/```
+In the directory ```files``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside ```/etc/my.cnf.d/```
 
 The configuration files contain puppet variables. If you don't have puppet you'll remove the 'erb' extension and fill the variables manually. 
 
@@ -25,11 +25,11 @@ Here is the bug: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329
 Prerequisites: 
 ==============
 
-- /var/lib/mysql must be a mount-point in fstab (lvm, btrfs, normal partion...)
-- copy galera_params.py under /root/
-- copy galerakickoff.py somewhere within your $PATH (i.e.: /usr/local/bin)
-- if you use MariaDB copy server.cnf under /etc/my.cnf.d/
-- if you use Percona create my.cnf accordingly and put it under /etc/
+- ```/var/lib/mysql``` must be a mount-point in fstab (lvm, btrfs, normal partion...)
+- copy galera_params.py under ```/root/```
+- copy galerakickoff.py somewhere within your $PATH (i.e.: ```/usr/local/bin```)
+- if you use MariaDB copy server.cnf under ```/etc/my.cnf.d/```
+- if you use Percona create my.cnf accordingly and put it under ```/etc/```
 
 you need to install the following extra software:
 - Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
@@ -42,8 +42,7 @@ Variables in /root/galera_params.py
 ```ruby
 all_nodes = ["<%= @galera_hosts.join('", "') -%>"]
 credentials = {"root": "<%= @galera_root_password %>", "sstuser": "<%= @galera_sst_password %>", "nagios": "<%= @galera_nagios_password %>"}
-mydomain = ".<%= @domain -%>"
-```
+mydomain = ".<%= @domain -%>" ```
 imagine we have: 
  - three servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
  - database root password: myrootpass
@@ -54,14 +53,12 @@ Then you'll have the following lines in the file:
 ```python
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
-mydomain = ".domain.com"
-```
+mydomain = ".domain.com" ```
 
 Variables in server.cnf:
 =============================
 ```ruby
-<%= @galera_hosts.join(",") %> 
-```
+<%= @galera_hosts.join(",") %> ```
 - a comma separated list of the hosts belonging to the cluster. With MariaDB this row can be commented ouy, but with Percona, due to a bug, even if it will work, it will not show the servers connected to the cluster.
 
 ```ruby
@@ -69,8 +66,7 @@ Variables in server.cnf:
 innodb-buffer-pool-size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * @galera_total_memory_usage.to_f).floor %>M
 <% elsif @memorysize =~ /MB/ -%>
 innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_memory_usage.to_f ).floor %>M
-<% end -%>
-```
+<% end -%> ```
 - This is namely something like: innodb-buffer-pool-size=4096M 
   I use to assign 70% of the memory, but you'll do as you prefer.
 
@@ -79,8 +75,7 @@ innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_mem
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * 0.15).floor %>M"
 <% elsif @memorysize =~ /MB/ -%>
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' MB','').to_f * 0.15).floor %>M"
-<% end -%> 
-```
+<% end -%> ```
 - Similar as above said. In this case I give 15% of the whole memory
 
 ```ruby
@@ -118,7 +113,7 @@ Monitor:
 ```
     NODE_COUNT=3
 ```
-  you need to copy my_nagios.cnf under /etc/
+  you need to copy my_nagios.cnf under ```/etc/```
 ```ruby
     password=<%= @galera_nagios_password %>
 ```
