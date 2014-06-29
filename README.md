@@ -74,7 +74,7 @@ innodb-buffer-pool-size=<%= (@memorysize.gsub(' MB','').to_f * @galera_total_mem
 ```
 - This is namely something like: innodb-buffer-pool-size=4096M 
   I use to assign 70% of the memory, but you'll do as you prefer.
-
+----------------------  
 ```ruby
 <% if @memorysize =~ /GB/ -%>
 wsrep_provider_options="gcache.size=<%= (@memorysize.gsub(' GB','').to_f * 1024 * 0.15).floor %>M"
