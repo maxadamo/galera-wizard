@@ -9,9 +9,9 @@ In the directory ```files``` you'll find a server.cnf example for MariaDB Cluste
 Bugs & Workaround:
 ==================
 
-- Percona XtraBackup has a couple of bugs. The bug affecting this script is the following: if you have ```/var/lib/mysql/lost+found``` the script will crash.  
-To workaround the issue you may use incron to re-asssign the directory to mysq:mysql (or you can even delete lost+found, but it will be created again during the boot).  
-Here is the bug: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329
+- Percona XtraBackup has a couple of bugs. The bug affecting us it the following: ```/var/lib/mysql/lost+found``` will crash SST.  
+https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 ```/var/lib/mysql/lost+found```  
+A possible workaround can be to to use incron to re-asssign the directory to mysq:mysql (or whatever else comes yo your mind).  
 
 
 TODO:
@@ -20,14 +20,14 @@ TODO:
 - get all config changes described below performed by the main script
 
 
-Prerequisites: 
-==============
+Prerequisites & Installation:
+=============================
 
 Red Hat:
-- Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
+- install Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
 - yum install python-argparse MySQL-python
 - download and install the RPM from ```rpms``` folder
-- check ```/root/galera_params.py.example``` and fill ```/root/galera_params.py```
+- check ```/root/galera_params.py.example``` and fill your data in ```/root/galera_params.py```
 
 other systems:
 - copy galera-wizard.py somewhere within your $PATH (i.e.: ```/usr/local/bin```)
@@ -41,12 +41,9 @@ Variables in /root/galera_params.py
 ============================================
 imagine we have: 
  - three servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
- - we use MariaDB (not Percona)
- - database root password: myrootpass
- - database sst password: mysstpass
- - database nagios password: mynagiospass
+ - DB root password: myrootpass | DB sst password: mysstpass | DB nagios password: mynagiospass
 
-Then you'll have the following lines in the file:
+This is what we'll have in the file:
 ```python
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
