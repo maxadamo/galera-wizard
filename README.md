@@ -25,7 +25,7 @@ Prerequisites:
 
 Red Hat:
 - Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
-- install python-argparse and MySQL-python
+- yum install python-argparse MySQL-python
 - download and install the RPM from ```rpms``` folder
 - check ```/root/galera_params.py.example``` and fill ```/root/galera_params.py```
 
