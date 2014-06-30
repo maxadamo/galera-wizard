@@ -23,14 +23,16 @@ TODO:
 Prerequisites: 
 ==============
 
-- ```/var/lib/mysql``` must be a mount-point in fstab (lvm, btrfs, normal partion...)
-- copy galera_params.py under ```/root/```
-- copy galerakickoff.py somewhere within your $PATH (i.e.: ```/usr/local/bin```)
+Red Hat:
+- Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
+- install python-argparse and MySQL-python
+- download and install the RPM from ```rpms``` folder
+- check ```/root/galera_params.py.example``` and fill ```/root/galera_params.py```
+
+other systems:
+- copy galera-wizard.py somewhere within your $PATH (i.e.: ```/usr/local/bin```)
 - if you use MariaDB copy server.cnf under ```/etc/my.cnf.d/```
 - if you use Percona create my.cnf accordingly and put it under ```/etc/```
-
-you need to install the following extra software:
-- Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
 - Python argparse (some Linux distributions already have it)
 - MySQL for python (Ubuntu: python-mysqldb - Red Hat: MySQL-python)
 
@@ -49,7 +51,6 @@ Then you'll have the following lines in the file:
 all_nodes = [ "galera-001.domain.com", "galera-002.domain.com", "galera-003.domain.com" ]
 credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagiospass"}
 mydomain = "domain.com"
-bootstrap_cmd = "bootstrap"
 ```
 
 Variables in server.cnf:

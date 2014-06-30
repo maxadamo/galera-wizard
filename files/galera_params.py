@@ -8,7 +8,3 @@ credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagios
 # Domain name of your hosts
 mydomain = "domain.com"
 
-# Use "bootstrap" with MariaDB and use "boostrap-pxc" with Percona
-bootstrap_cmd = "bootstrap"
-
-

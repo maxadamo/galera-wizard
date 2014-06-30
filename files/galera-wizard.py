@@ -53,26 +53,28 @@ mygid = grp.getgrnam("mysql").gr_gid
 
 def clean_underlying_dir():
     """cleanup directory under /var/lib/mysql"""
-    unmount = subprocess.Popen(["/bin/umount", DATADIR])
-    out, err = unmount.communicate()
-    retcode = unmount.poll()
-    if retcode == 1:
-        fuser = subprocess.Popen(["/sbin/fuser", "-uvm", DATADIR],
+    if os.path.ismount("DATADIR"):
+        unmount = subprocess.Popen(["/bin/umount", DATADIR])
+        out, err = unmount.communicate()
+        retcode = unmount.poll()
+        if retcode == 1:
+            fuser = subprocess.Popen(["/sbin/fuser", "-uvm", DATADIR],
                                         stdout=subprocess.PIPE)
-        fuser.communicate()
-        print(RED
+            fuser.communicate()
+            print(RED
               + "\nSome process is not allowing to umount: "
               + WHITE + DATADIR
               +"\n\nPlease check it manually\n")
-        sys.exit(1)
-    else:
-        for sqldiritem in glob.glob(DATADIR + "/*"):
-            if os.path.isdir(sqldiritem):
-                shutil.rmtree(sqldiritem)
-            else:
-                os.unlink(sqldiritem)
-        mount = subprocess.Popen(["/bin/mount", DATADIR])
-        out, err = mount.communicate()
+            sys.exit(1)
+    for sqldiritem in glob.glob(DATADIR + "/*"):
+        if os.path.isdir(sqldiritem):
+            shutil.rmtree(sqldiritem)
+        else:
+            os.unlink(sqldiritem)
+    mount = subprocess.Popen(['/bin/mount', DATADIR,],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+    out, err = mount.communicate()
 
 
 def kill_mysql():
