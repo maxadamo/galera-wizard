@@ -7,7 +7,7 @@
 2. Requirements (normally installed thru puppet):
   - yum install python-argparse MySQL-python
 3. Avoid joining all nodes at once
-4. The script will be stored in /root/bin as it contains DB credentials
+4. The paramter file will be stored in /root/bin as it contains DB credentials
 
 Bugs & Workarounds:
 1.  We have a bug in Innobackupex:
@@ -37,8 +37,7 @@ if not os.access(galera_params, os.F_OK):
     sys.exit(1)
 execfile(galera_params)
 
-mydomain = "." + mydomain
-myname = socket.gethostname().split(".", 1)[0] + mydomain
+myname = socket.gethostname().split(".", 1)[0] + "." + mydomain
 other_nodes = list(all_nodes)
 other_nodes.remove(myname)
 other_wsrep = []
