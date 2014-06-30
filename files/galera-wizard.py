@@ -104,6 +104,19 @@ def restore_mycnf():
         os.rename("/root/.my.cnf.bak", "/root/.my.cnf")
 
 
+def check_vendor():
+    """check if it is Percona or MariaDB"""
+    global bootstrap_cmd
+    yb = yum.YumBase()
+    if yb.rpmdb.searchNevra(name='MariaDB-Galera-server'):
+        bootstrap_cmd = "bootstrap"
+    elif yb.rpmdb.searchNevra(name='Percona-XtraDB-Cluster-full-56'):
+        bootstrap_cmd = "bootstrap-pxc"
+    else:
+        print(RED + "I do not see neither MariaDB or Percona installed" + WHITE)
+        sys.exit(1)
+
+
 def initialize_mysql():
     """initialize mysql default schemas"""
     for sqldiritem in glob.glob(DATADIR + "/*"):
@@ -120,6 +133,7 @@ def initialize_mysql():
 
 def bootstrap_mysql(boot):
     """bootstrap the cluster"""
+    check_vendor()
     if boot == "new":
         rename_mycnf()
     try:
