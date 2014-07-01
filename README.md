@@ -11,7 +11,7 @@ Bugs & Workaround:
 
 - Percona XtraBackup has a couple of bugs.  
 The bug affecting Galera is: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 (namely, ```/var/lib/mysql/lost+found``` will crash SST).  
-A possible workaround can be to to use incron to re-asssign ```/var/lib/mysql/lost+found``` to ```mysql:mysql``` (or whatever else comes yo your mind).  
+A possible workaround can be to to use incron to re-asssign ```/var/lib/mysql/lost+found``` to ```mysql:mysql``` (or whatever else comes to your mind).  
 
 
 Prerequisites & Installation:
