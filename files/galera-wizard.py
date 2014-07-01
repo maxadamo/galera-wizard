@@ -7,7 +7,7 @@
 2. Requirements (normally installed thru puppet):
   - yum install python-argparse MySQL-python
 3. Avoid joining all nodes at once
-4. The paramter file will be stored in /root/bin as it contains DB credentials
+4. The paramter file will be stored in /root/ as it contains DB credentials
 
 Bugs & Workarounds:
 1.  We have a bug in Innobackupex:
