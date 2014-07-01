@@ -2,7 +2,7 @@
 #
 '''
 1. This script will either:
-  - bootstrap new or existing cluster
+  - bootstrap a new or an existing cluster
   - join/rejoin an existing cluster
 2. Requirements (normally installed thru puppet):
   - yum install python-argparse MySQL-python
