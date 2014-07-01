@@ -25,8 +25,8 @@ Bugs & Workaround:
 ==================
 
 - Percona XtraBackup has a couple of bugs.  
-The bug affecting Galera is: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 (namely ```/var/lib/mysql/lost+found``` will crash SST: it's clearly OSErrorfrom Perl, as it cannot access the directory)
-A possible workaround can be to to use incron to re-asssign ```/var/lib/mysql/lost+found``` to ```mysql:mysql``` (or whatever else comes to your mind).  
+The bug affecting Galera is: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 (namely ```/var/lib/mysql/lost+found``` will crash SST: it's clearly OSError from Perl, as it cannot access the directory)
+A possible workaround is to to use incron to re-asssign ```/var/lib/mysql/lost+found``` to ```mysql:mysql``` (or whatever else comes to your mind).  
 
 
 Prerequisites & Installation:
