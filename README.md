@@ -18,13 +18,13 @@ edit the newly copied file ```galera_params.py``` and fill the proper data in.
 (with Percona) ```cp /etc/my.cnf.example /etc/my.cnf```  
 (with MariaDB) ```cp /etc/my.cnf.d/server.cnf.example /etc/my.cnf.d/server.cnf```  
 review this file (pay close attention to memory settings and other things, according to Percona/MariaDB recommendations)  
-```galera-wizard.py -h````  will explain you how to bootstrap the first node and join the others.  
+```galera-wizard.py -h```  will explain you how to bootstrap the first node and join the others.  
 
 Bugs & Workaround:
 ==================
 
 - Percona XtraBackup has a couple of bugs.  
-The bug affecting Galera is: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 (namely, ```/var/lib/mysql/lost+found``` will crash SST).  
+The bug affecting Galera is: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 (namely ```/var/lib/mysql/lost+found``` will crash SST: it's clearly OSErrorfrom Perl, as it cannot access the directory)
 A possible workaround can be to to use incron to re-asssign ```/var/lib/mysql/lost+found``` to ```mysql:mysql``` (or whatever else comes to your mind).  
 
 
