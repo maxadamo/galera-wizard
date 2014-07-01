@@ -67,7 +67,7 @@ Please check the documentation from Percona XtraDB Cluster / MariaDB Galera Clus
 Monitor:
 ========
 
-I created a script to check the nodes: ```/usr/local/bin/galeracheck.sh``` 
+I created a script to check the nodes: ```/usr/local/bin/galeracheck.sh``` (**leave it thhre:** it will be configurare by the main script ```galera-wizard.py```)  
 
 
 Notes:
