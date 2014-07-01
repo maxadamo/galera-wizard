@@ -9,9 +9,9 @@ In the directory ```files``` you'll find a server.cnf example for MariaDB Cluste
 Bugs & Workaround:
 ==================
 
-- Percona XtraBackup has a couple of bugs. The bug affecting us it https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329  
-namely, ```/var/lib/mysql/lost+found``` will crash SST.  
-A possible workaround can be to to use incron to re-asssign the directory to mysq:mysql (or whatever else comes yo your mind).  
+- Percona XtraBackup has a couple of bugs.  
+The bug affecting Galera is: https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 (namely, ```/var/lib/mysql/lost+found``` will crash SST).  
+A possible workaround can be to to use incron to re-asssign ```/var/lib/mysql/lost+found``` to mysq:mysql (or whatever else comes yo your mind).  
 
 
 Prerequisites & Installation:
