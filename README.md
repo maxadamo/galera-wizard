@@ -45,8 +45,8 @@ other systems:
 - MySQL for python (Ubuntu: python-mysqldb - Red Hat: MySQL-python)
 
 
-Variables in /root/galera_params.py
-============================================
+Variables in /root/galera_params.py:
+====================================
 imagine we have: 
  - three servers: galera-001.domain.com - galera-002.domain.com - galera-003.domain.com
  - DB root password: myrootpass | DB sst password: mysstpass | DB nagios password: mynagiospass
@@ -58,8 +58,8 @@ credentials = {"root": "myrootpass", "sstuser": "mysstpass", "nagios": "mynagios
 mydomain = "domain.com"
 ```
 
-Variables in server.cnf:
-=============================
+Variables in server.cnf/my.cnf:
+===============================
 
 Please check the documentation from Percona XtraDB Cluster / MariaDB Galera Cluster. 
 
