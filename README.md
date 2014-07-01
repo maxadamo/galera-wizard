@@ -3,10 +3,10 @@ galera-wizard
 
 Wizard Script for Galera Cluster
 
-The script provided in the RPM will create a couple of sample config files for you. Once you've reviewved your file and coopied with its proper name, you'll be able to use the script to create and manage the cluster as well.  
-All you have to do is to supply server names and credentials in the config file ```/root/galera_pamars.py```.    
+The script provided in the RPM will create a couple of sample config files for you. Once you've reviewed your file and renamed it accordingly, you'll be able to use the script to create and manage the cluster as well.  
+All you have to do is to supply server-names and credentials in the config file: ```/root/galera_pamars.py```.    
 It works with either MariaDB and Percona XtraDB Cluster.  
-It's completely untested on Debian systems (most likely it will fail. I didn't provide yet the proper package names in script. I also need to use a hypotetic deb library for python)
+It won't work on Debian systems (I didn't provide yet the proper package names in script. I also need to use a hypotetic ```deb``` library for python)
 
 
 How To use the script:
