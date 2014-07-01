@@ -1,7 +1,7 @@
-galerakickoff
+galera-wizard
 =============
 
-KickOff Script for Galera Cluster
+Wizard Script for Galera Cluster
 
 In the directory ```files``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside ```/etc/my.cnf.d/```
 
