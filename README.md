@@ -12,14 +12,13 @@ How To use the script:
 ======================
 
 **All commands below are run as root.**  
-run: ```cp /root/galera_params.py.example /root/galera_params.py```  
+```$ cp /root/galera_params.py.example /root/galera_params.py```  
 edit the newly copied file ```galera_params.py``` and fill the proper data in.  
-run: ```galera-wizard.py --create-config```  
-with Percona ```cp /etc/my.cnf.example /etc/my.cnf```  
-with MariaDB ```cp /etc/my.cnf.d/server.cnf.example /etc/my.cnf.d/server.cnf```  
+```galera-wizard.py --create-config```  
+(with Percona) ```cp /etc/my.cnf.example /etc/my.cnf```  
+(with MariaDB) ```cp /etc/my.cnf.d/server.cnf.example /etc/my.cnf.d/server.cnf```  
 review this file (pay close attention to memory settings and other things, according to Percona/MariaDB recommendations)  
-run the script with ```-h```: ```galera-wizard.py -h````  
-You'll understand how to bootstrap the first node and join the others.  
+```galera-wizard.py -h````  will explain you how to bootstrap the first node and join the others.  
 
 Bugs & Workaround:
 ==================
