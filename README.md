@@ -3,7 +3,9 @@ galera-wizard
 
 Wizard Script for Galera Cluster
 
-In the directory ```files``` you'll find a server.cnf example for MariaDB Cluster (working with either version 10 and 5.5) to be put inside ```/etc/my.cnf.d/```
+The script provided in the RPM will create a couple of sample config files for you. It will also create and manage the clsuter.  
+All you have to do is to supply server names and credentials in the config file ```/root/galera_pamars.py```  
+It works with either MariaDB and Percona XtraDB Cluster. 
 
 
 Bugs & Workaround:
