@@ -22,7 +22,7 @@ Author: Massimiliano Adamo <maxadamo@gmail.com>
 '''
 
 import subprocess, argparse, textwrap, MySQLdb, shutil, signal
-import socket, time, glob, sys, pwd, grp, os
+import socket, time, glob, yum, sys, pwd, grp, os
 
 PURPLE = '\033[95m'
 BLUE = '\033[94m'
@@ -91,6 +91,55 @@ def kill_mysql():
         clean_underlying_dir()
 
 
+def fill_files():
+    """fill data inside config files"""
+    check_vendor()
+    docdir = "/usr/share/doc/galera-wizard"
+    nagios_cnf = "/etc/my_nagios.cnf"
+    nagios_chk = "/usr/local/bin/galeracheck.sh"
+    if vendor == "mariadb":
+        source_config = docdir + "/server.cnf.MariaDB"
+        config_file = "/etc/my.cnf.d/server.cnf.example"
+    elif vendor == "percona":
+        source_config = docdir + "/my.cnf.Percona"
+        config_file = "/etc/my.cnf.example"
+    f = open(source_config, 'r')
+    lines_config = f.readlines()
+    f.close()
+    ff = open(config_file, 'wb')
+    for line in source_config:
+        if "wsrep_cluster_address=gcomm://" in line:
+            f.write("wsrep_cluster_address=gcomm://" + ','.join(str(p) for p in all_nodes))
+        if "wsrep_sst_receive_address=" in line:
+            f.write("wsrep_sst_receive_address=" + myname)
+        if "wsrep_sst_auth=sstuser:" in line:
+            f.write("wsrep_sst_auth=sstuser:" + credentials["nagios"])
+    ff.close()
+    print("\nCreated file: " + config_file)
+    f = open(docdir + "/my_nagios.cnf.example", 'r')
+    lines_cnf = f.readlines()
+    f.close()
+    f = open(nagios_chk, 'r')
+    lines_chk = f.readlines()
+    f.close()
+    f = open(nagios_chk, 'wb')
+    for line in lines_chk:
+        if "NODE_COUNT=" in line:
+            f.write("NODE_COUNT=" + str(len(all_nodes)) + "\n")
+        else:
+            f.write(line)
+    f.close()
+    print("Created file: " + nagios_chk)
+    f = open(nagios_cnf, 'wb')
+    for line in lines_cnf:
+        if "password=" in line:
+            f.write("password=" + credentials["nagios"] + "\n")
+        else:
+            f.write(line)
+    f.close()
+    print("Created file: " + nagios_cnf + "\n")
+
+
 def rename_mycnf():
     """rename /root/.my.cnf"""
     if os.path.isfile("/root/.my.cnf"):
@@ -105,15 +154,21 @@ def restore_mycnf():
 
 def check_vendor():
     """check if it is Percona or MariaDB"""
-    global bootstrap_cmd
+    global bootstrap_cmd, vendor
+    oldstdout = sys.stdout
+    sys.stdout = open(os.devnull, 'w')
     yb = yum.YumBase()
     if yb.rpmdb.searchNevra(name='MariaDB-Galera-server'):
         bootstrap_cmd = "bootstrap"
+        vendor = "mariadb"
     elif yb.rpmdb.searchNevra(name='Percona-XtraDB-Cluster-full-56'):
         bootstrap_cmd = "bootstrap-pxc"
+        vendor = "percona"
     else:
+        sys.stdout = oldstdout
         print(RED + "I do not see neither MariaDB or Percona installed" + WHITE)
         sys.exit(1)
+    sys.stdout = oldstdout
 
 
 def initialize_mysql():
@@ -361,6 +416,7 @@ def create_users(thisuser):
 
 def createcluster(mode):
     """create and bootstrap a cluster"""
+    fill_files()
     os.chown(DATADIR, myuid, mygid)
     for hostitem in other_nodes:
         checkhost(hostitem)
@@ -389,6 +445,7 @@ def createcluster(mode):
 def joincluster(model):
     """join a cluster"""
     os.chown(DATADIR, myuid, mygid)
+    fill_files()
     for hostitem in other_nodes:
         checkhost(hostitem)
     if other_wsrep:
@@ -429,34 +486,20 @@ def main():
         argparse.RawDescriptionHelpFormatter(prog,max_help_position=29),
         description=textwrap.dedent(intro),
         epilog="Author: Massimiliano Adamo <maxadamo@gmail.com")
-    parser.add_argument('-cc', '--check-cluster',
-                        help='check if all nodes are healthy',
-                        action='store_true', dest='checkonly()',
-                        required=False)
-    parser.add_argument('-dr', '--dry-run',
-                        help='show SQL statements to run on this cluster',
-                        action='store_true', dest='show_statements()',
-                        required=False)
-    parser.add_argument('-je', '--join-existing',
-                        help='join existing Cluster',
-                        action='store_true',
-                        dest='joincluster("existing")',
-                        required=False)
-    parser.add_argument('-be', '--bootstrap-existing',
-                        help='bootstrap existing Cluster',
-                        action='store_true',
-                        dest='createcluster("existing")',
-                        required=False)
-    parser.add_argument('-jn', '--join-new',
-                        help='join existing Cluster (DESTROY DATA)',
-                        action='store_true',
-                        dest='joincluster("new")',
-                        required=False)
-    parser.add_argument('-bn', '--bootstrap-new',
-                        help='bootstrap new Cluster (DESTROY DATA)',
-                        action='store_true',
-                        dest='createcluster("new")',
-                        required=False)
+    parser.add_argument('-cc', '--create-config', help='create config samples',
+                        action='store_true', dest='fill_files()', required=False)
+    parser.add_argument('-cg', '--check-galera', help='check if all nodes are healthy',
+                        action='store_true', dest='checkonly()', required=False)
+    parser.add_argument('-dr', '--dry-run', help='show SQL statements to run on this cluster',
+                        action='store_true', dest='show_statements()', required=False)
+    parser.add_argument('-je', '--join-existing', help='join existing Cluster',
+                        action='store_true', dest='joincluster("existing")', required=False)
+    parser.add_argument('-be', '--bootstrap-existing', help='bootstrap existing Cluster',
+                        action='store_true', dest='createcluster("existing")', required=False)
+    parser.add_argument('-jn', '--join-new', help='join existing Cluster (DESTROY DATA)',
+                        action='store_true', dest='joincluster("new")', required=False)
+    parser.add_argument('-bn', '--bootstrap-new', help='bootstrap new Cluster (DESTROY DATA)',
+                        action='store_true', dest='createcluster("new")', required=False)
     args = parser.parse_args()
     argsdict = vars(args)
 

@@ -14,12 +14,6 @@ https://bugs.launchpad.net/percona-xtrabackup/+bug/1272329 ```/var/lib/mysql/los
 A possible workaround can be to to use incron to re-asssign the directory to mysq:mysql (or whatever else comes yo your mind).  
 
 
-TODO:
-=====
-
-- get all config changes described below performed by the main script
-
-
 Prerequisites & Installation:
 =============================
 
@@ -75,7 +69,7 @@ Monitor:
 ========
 
 I created a script to check the nodes. It contains only two parameter to set.  
-- clustercheck.sh needs to know how many nodes we have in the cluster (minimum is 3):
+- galeracheck.sh needs to know how many nodes we have in the cluster (minimum is 3):
 ```
     NODE_COUNT=3
 ```

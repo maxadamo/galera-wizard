@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# This script is distributed by puppet
+# This script is installed on /usr/local/bin
+# you can symlink it in your nagios directory. I.e.: /usr/lib64/nagios/plugins/
 #
 # Default settings, do not touch.
 SCRIPT_INVOCATION_SHORT_NAME=`basename $0`
