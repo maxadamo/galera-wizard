@@ -60,37 +60,14 @@ mydomain = "domain.com"
 
 Variables in server.cnf:
 =============================
-```
-wsrep_cluster_address=gcomm://galera-001.domain.com,galera-002.domain.com,galera-003.domain.com
-```
-- a comma separated list of the hosts belonging to the cluster. With MariaDB this row can be commented ouy, but with Percona, due to a bug, even if it will work, it will not show the servers connected to the cluster.  
-  
-----------------------  
-```
-wsrep_sst_receive_address=galera-001.domain.com
-```
-- Fully qualified domain name of the server running Galera Cluster
 
-
-----------------------  
-```ruby
-wsrep_sst_auth=sstuser:mysstpass
-```
-- password for the user 'sstuser' used for the replication
+Please check the documentation from Percona XtraDB Cluster / MariaDB Galera Cluster. 
 
 
 Monitor:
 ========
 
-I created a script to check the nodes. It contains only two parameter to set.  
-- galeracheck.sh needs to know how many nodes we have in the cluster (minimum is 3):
-```
-    NODE_COUNT=3
-```
-- you need to copy my_nagios.cnf under ```/etc/``` and it will contain the password for nagios:
-```
-    password=mynagiospass
-```
+I created a script to check the nodes: ```/usr/local/bin/galeracheck.sh``` 
 
 
 Notes:
