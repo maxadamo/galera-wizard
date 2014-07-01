@@ -34,14 +34,14 @@ Prerequisites & Installation:
 
 Red Hat:
 - install Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
-- yum install python-argparse MySQL-python
+- ```yum install python-argparse MySQL-python```
 - download and install the last RPM from ```rpms``` folder
 - follow the steps described in **How To use the script**
 
 other systems (untested):
 - copy ```galera-wizard.py``` somewhere within your $PATH (i.e.: ```/usr/local/bin```)
 - install Python argparse (some Linux distributions already have it)
-- install MySQL for python (Ubuntu: python-mysqldb - Red Hat: MySQL-python)
+- install MySQL for python (on Ubuntu is called *python-mysqldb*)
 - follow the steps described in **How To use the script**
 
 
