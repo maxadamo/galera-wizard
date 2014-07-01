@@ -18,14 +18,7 @@ Bugs & Workarounds:
     Therefore we workaround the issue by letting puppet install an incron
     entry that immediately reassign the directory ownership to mysql:mysql
 
-TODO: 
-1. get the script working on debian systems. Below is the starting point: 
-import apt 
-cache = apt.Cache()
-if cache['package-name'].is_installed:
-    print "YES it's installed"
-else:
-    print "NO it's NOT installed"
+TODO: (see TODO.txt)
 
 Author: Massimiliano Adamo <maxadamo@gmail.com>
 '''
