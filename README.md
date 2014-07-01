@@ -3,10 +3,23 @@ galera-wizard
 
 Wizard Script for Galera Cluster
 
-The script provided in the RPM will create a couple of sample config files for you. It will also create and manage the clsuter.  
-All you have to do is to supply server names and credentials in the config file ```/root/galera_pamars.py```  
+The script provided in the RPM will create a couple of sample config files for you. Once you've reviewved your files (and removed the ".example" suffix) you'll be able to use the script to create and manage the cluster as well.  
+All you have to do is to supply server names and credentials in the config file ```/root/galera_pamars.py```.    
 It works with either MariaDB and Percona XtraDB Cluster. 
 
+
+How To use the script:
+======================
+
+**All commands below are run as root.**  
+run: ```cp /root/galera_params.py.example /root/galera_params.py```  
+edit the newly copied file ```galera_params.py``` and fill the proper data in.  
+run: ```galera-wizard.py --create-config```  
+with Percona ```cp /etc/my.cnf.example /etc/my.cnf```  
+with MariaDB ```cp /etc/my.cnf.d/server.cnf.example /etc/my.cnf.d/server.cnf```  
+review this file (pay close attention to memory settings and other things, according to Percona/MariaDB recommendations)  
+run the script with ```-h```: ```galera-wizard.py -h````  
+You'll understand how to bootstrap the first node and join the others.  
 
 Bugs & Workaround:
 ==================
