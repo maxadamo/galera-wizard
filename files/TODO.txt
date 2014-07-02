@@ -1,26 +1,2 @@
-# How to distinguish RPMs systems from DEBs system
-import platform
-rpm_systems = ['fedora', 'redhat', 'centos']
-deb_systems = ['debian', 'Ubuntu']
+# Added some basic check for Debian systems, but it needs to be improved.
 
-for systems in rpm_systems + deb_systems:
-    if systems == rpm_systems:
-        import yum
-        found = "yum"
-    elif systems == deb_systems:
-        import apt
-        found = "apt"
-
-if 'found' not in locals() or 'found' not in globals():
-    print ("You distribution is not supported")
-    sys.exit
-
-if found == "apt":
-    import apt
-    cache = apt.Cache()
-    if cache['package-name'].is_installed:
-        print "YES it's installed"
-    else:
-        print "NO it's NOT installed"
-elif found == "yum":
-    blahblah....

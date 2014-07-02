@@ -24,7 +24,7 @@ Author: Massimiliano Adamo <maxadamo@gmail.com>
 '''
 
 import subprocess, argparse, textwrap, MySQLdb, shutil, signal
-import socket, time, glob, yum, sys, pwd, grp, os
+import platform, socket, time, glob, sys, pwd, grp, os
 
 PURPLE = '\033[95m'
 BLUE = '\033[94m'
@@ -48,8 +48,19 @@ lastcheck_nodes = []
 for item in other_nodes:
     other_wsrep.append(item)
 DATADIR = "/var/lib/mysql"
-myuid = pwd.getpwnam("mysql").pw_uid
-mygid = grp.getgrnam("mysql").gr_gid
+try:
+    myuid = pwd.getpwnam("mysql").pw_uid
+except KeyError:
+    print("I can't find the user mysql. \nGiving up...")
+    sys.exit(1)
+try:
+    mygid = grp.getgrnam("mysql").gr_gid
+except KeyError:
+    print("I can't find the group mysql. \nGiving up...")
+    sys.exit(1)
+rpm_systems = ['fedora', 'redhat', 'centos']
+deb_systems = ['debian', 'Ubuntu', 'LinuxMint']
+this_system = platform.dist()[0]
 
 
 def clean_underlying_dir():
@@ -157,20 +168,48 @@ def restore_mycnf():
 def check_vendor():
     """check if it is Percona or MariaDB"""
     global bootstrap_cmd, vendor
-    oldstdout = sys.stdout
-    sys.stdout = open(os.devnull, 'w')
-    yb = yum.YumBase()
-    if yb.rpmdb.searchNevra(name='MariaDB-Galera-server'):
-        bootstrap_cmd = "bootstrap"
-        vendor = "mariadb"
-    elif yb.rpmdb.searchNevra(name='Percona-XtraDB-Cluster-full-56'):
-        bootstrap_cmd = "bootstrap-pxc"
-        vendor = "percona"
-    else:
+    for mysystem in rpm_systems + deb_systems:
+        if this_system in rpm_systems:
+            import yum
+            found = "yum"
+        elif mysystem in deb_systems:
+            import apt
+            found = "apt"
+    print("\n" + platform.dist()[0] + " " + platform.dist()[1] + " detected...")
+    if found == "apt":
+        import apt
+        cache = apt.Cache()
+        if ['mariadb-galera-server'] not in cache.keys():
+            print("You don't seem to have a repository with MariaDB Galera")
+            sys.exit(1)
+        if cache['mariadb-galera-server'].is_installed:
+            print("I recognize mariadb-galera-server on " + this_system +
+                  "\nbut unfortunately it's not yet supported")
+            print("Giving up... :(")
+            sys.exit(0)
+        else:
+            print("I do not see mariadb-galera-server on " + this_system +
+                  "\nhowever " + this_system + " is not yet supported")
+            print("Giving up... :(")
+            sys.exit(0)
+    elif found == "yum":
+        oldstdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w')
+        yb = yum.YumBase()
+        if yb.rpmdb.searchNevra(name='MariaDB-Galera-server'):
+            bootstrap_cmd = "bootstrap"
+            vendor = "mariadb"
+        elif yb.rpmdb.searchNevra(name='Percona-XtraDB-Cluster-full-56'):
+            bootstrap_cmd = "bootstrap-pxc"
+            vendor = "percona"
+        else:
+            sys.stdout = oldstdout
+            print(RED + "I do not see neither MariaDB or Percona installed" + WHITE)
+            sys.exit(1)
         sys.stdout = oldstdout
-        print(RED + "I do not see neither MariaDB or Percona installed" + WHITE)
-        sys.exit(1)
-    sys.stdout = oldstdout
+    else:
+        print (this_system + " is not supported")
+        sys.exit
 
 
 def initialize_mysql():
