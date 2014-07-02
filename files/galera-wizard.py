@@ -51,12 +51,12 @@ DATADIR = "/var/lib/mysql"
 try:
     myuid = pwd.getpwnam("mysql").pw_uid
 except KeyError:
-    print("I can't find the user mysql. \nGiving up...")
+    print("I can't find the user mysql \nGiving up...")
     sys.exit(1)
 try:
     mygid = grp.getgrnam("mysql").gr_gid
 except KeyError:
-    print("I can't find the group mysql. \nGiving up...")
+    print("I can't find the group mysql \nGiving up...")
     sys.exit(1)
 rpm_systems = ['fedora', 'redhat', 'centos']
 deb_systems = ['debian', 'Ubuntu', 'LinuxMint']
@@ -179,19 +179,17 @@ def check_vendor():
     if found == "apt":
         import apt
         cache = apt.Cache()
-        if ['mariadb-galera-server'] not in cache.keys():
-            print("You don't seem to have a repository with MariaDB Galera")
-            sys.exit(1)
-        if cache['mariadb-galera-server'].is_installed:
-            print("I recognize mariadb-galera-server on " + this_system +
-                  "\nbut unfortunately it's not yet supported")
-            print("Giving up... :(")
-            sys.exit(0)
+        if cache['percona-xtradb-cluster-server'].is_installed:
+            bootstrap_cmd = "bootstrap-pxc"
+            vendor = "percona"
+        elif ['mariadb-galera-server'] in cache.keys():
+            if cache['mariadb-galera-server'].is_installed:
+                bootstrap_cmd = "bootstrap"
+                vendor = "mariadb"
         else:
-            print("I do not see mariadb-galera-server on " + this_system +
-                  "\nhowever " + this_system + " is not yet supported")
-            print("Giving up... :(")
-            sys.exit(0)
+            print("You don't have neither mariadb-galera-server or percona on "
+                  + this_system + "\nGiving up... ")
+            sys.exit(1)
     elif found == "yum":
         oldstdout = sys.stdout
         sys.stdout = open(os.devnull, 'w')
