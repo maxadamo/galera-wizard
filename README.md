@@ -12,7 +12,8 @@ It won't work on Debian systems (I didn't provide yet the proper package names i
 How To use the script:
 ======================
 
-**All commands below are run as root.**  
+**All commands are run as root.**  
+Ensure that these ports are open between the nodes: 3306, 4444, 4567, 4568  
 ```$ cp /root/galera_params.py.example /root/galera_params.py```  
 edit the newly copied file ```galera_params.py``` and fill the proper data in.  
 ```galera-wizard.py --create-config```  
