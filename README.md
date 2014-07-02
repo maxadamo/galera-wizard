@@ -33,8 +33,8 @@ Prerequisites & Installation:
 =============================
 
 Red Hat:
-- install Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
 - ```yum install python-argparse MySQL-python```
+- download and install Percona XtraBackup: http://www.percona.com/software/percona-xtrabackup/downloads
 - download and install the last RPM from ```rpms``` folder
 - follow the steps described in **How To use the script**
 
