@@ -372,7 +372,7 @@ def show_statements():
             if thisuser is "sstuser":
                 thisgrant = "RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.*"
             elif thisuser is "nagios":
-                thisgrant = "USAGE ON test.nagios"
+                thisgrant = "UPDATE ON test.nagios"
             if thisuser is not "root":
                 print("GRANT " + thisgrant + " TO '"
                       + thisuser + "'@'" + thishost + "';")
@@ -433,7 +433,7 @@ def create_users(thisuser):
         if thisuser is "sstuser":
             thisgrant = "RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.*"
         elif thisuser is "nagios":
-            thisgrant = "USAGE ON test.nagios"
+            thisgrant = "UPDATE ON test.nagios"
         if thisuser is not "root":
             try:
                 cursor.execute("""
