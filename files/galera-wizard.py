@@ -194,7 +194,7 @@ def check_vendor():
         oldstdout = sys.stdout
         sys.stdout = open(os.devnull, 'w')
         yb = yum.YumBase()
-        if yb.rpmdb.searchNevra(name='MariaDB-Galera-server'):
+        if yb.rpmdb.searchNevra(name='MariaDB-Galera-server') or yb.rpmdb.searchNevra(name='MariaDB-server'):
             bootstrap_cmd = "bootstrap"
             vendor = "mariadb"
         elif yb.rpmdb.searchNevra(name='Percona-XtraDB-Cluster-full-56'):
